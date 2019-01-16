@@ -3,8 +3,8 @@ Exam 2, problem 2.
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Nihaar Munnamgi.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import math
 import time
@@ -87,10 +87,10 @@ def main():
     print('Un-comment the calls in MAIN one by one')
     print(' to run the testing code as you complete the TODOs.')
 
-    # run_test_init()
-    # run_test_area()
-    # run_test_bigger_triangle()
-    # run_test_shrink_or_expand()
+    run_test_init()
+    run_test_area()
+    #run_test_bigger_triangle()
+    run_test_shrink_or_expand()
     # run_test_return_doubled_triangle()
     # run_test_get_largest_area()
 
@@ -146,6 +146,9 @@ class Triangle(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
+        self.a = a.clone()
+        self.b = b.clone()
+        self.c = c.clone()
 
     def area(self):
         """
@@ -155,8 +158,7 @@ class Triangle(object):
         Side effects: None.
 
         HINT #1: Recall Heron's formula for the area of a triangle:
-        Area =   square root of (S
-                                 * (S - length of side 1)
+        Area =   square root of (S * (S - length of side 1)
                                  * (S - length of side 2)
                                  * (S - length of side 3))
 
@@ -186,6 +188,19 @@ class Triangle(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
+        # length_ab = math.sqrt((self.b.y - self.a.y)**2 + (self.b.x - self.a.x) ** 2)
+        # length_bc = math.sqrt((self.c.y - self.b.y)**2 + (self.c.x - self.b.x) ** 2)
+        # length_ca = math.sqrt((self.a.y - self.c.y)**2 + (self.a.x - self.c.x) ** 2)
+        #
+        # return 0.5 * (length_ab + length_bc + length_ca)
+
+        length_ab = self.a.distance_from(self.b)
+        length_bc = self.b.distance_from(self.c)
+        length_ca = self.c.distance_from(self.a)
+
+        S = 1/2 * (length_ca + length_bc + length_ab)
+        return round(math.sqrt(S * (S - length_ab) * (S - length_bc) * (S - length_ca)))
+
 
     def bigger_triangle(self, triangle2):
         """
@@ -209,7 +224,10 @@ class Triangle(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
-
+        if self > triangle2:
+            return True
+        else:
+            return False
     def shrink_or_expand(self, f):
         """
          What comes in:
@@ -232,6 +250,10 @@ class Triangle(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # ---------------------------------------------------------------------
+        new_a = self.a * f
+        new_b = self.b * f
+        new_c = self.c * f
+        return new_a, new_b, new_c
 
     def return_doubled_triangle(self):
         """
